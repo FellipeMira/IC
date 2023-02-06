@@ -1,5 +1,5 @@
 ---
-title: "Dashboard para apresentação dos resultados preliminares"
+title: "Resultados parciais"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -15,6 +15,14 @@ library(tidyverse)
 library(purrr)
 
 ```
+
+Sidebar {.sidebar}
+=======================================================================
+
+### cran.rstudio.com
+
+The streaming data is a 1-week-delayed livestream of download
+logs from  cran.rstudio.com. The server code for that service is at [jcheng5/cransim](https://github.com/jcheng5/cransim).
 
 
 

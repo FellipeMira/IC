@@ -42,11 +42,9 @@ fit <- list()
 for (i in seq(1,9)) {
   fit[[i]] <- bfast(Yt = s.d.periodic[[i]], h = 50/length(s.d.periodic[[i]]), season = "harmonic", breaks = 4, max.iter = 2) 
   print(paste0('iteração:',i))
+  write.csv(fit[[i]], file = paste0('fit_',i,".csv"))
   gc()
 }
-
-
-bfastmonitor(s.d.periodic[[1]],start = 2008.1,h = 1,plot = T)
 
 St<- map(fit,function(x){x[["output"]][[1]][["St"]]})
 St[[1]] %>% plot()
@@ -129,7 +127,6 @@ df_merged[[1]] %>%
   geom_point(aes(y=inf_lim),col='blue3', size=0.3)+
   theme_linedraw()
 
-###############################################################################
+########################  Rasters ##############################################
 
 
-getwd()
