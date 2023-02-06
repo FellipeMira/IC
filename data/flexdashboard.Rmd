@@ -1,0 +1,90 @@
+---
+title: "Dashboard para apresentação dos resultados preliminares"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    social: menu
+    source_code: https://github.com/FellipeMira/IC/tree/main
+    theme: simplex
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(purrr)
+
+```
+
+
+
+AOI - Clusters
+=======================================================================
+Column {data-width=650 .tabset}
+-----------------------------------------------------------------------
+
+### Série temporal MODIS (2000-Momento)
+
+```{r,echo=FALSE, warning=FALSE}
+files_merged <- list.files(pattern = '*merged*')
+
+df_merged <- map(files_merged,
+                 function(x){read_csv(x)})
+
+plot_ts <- function(x){
+  g<-
+  df_merged[[1]] %>%  
+  mutate(NDVI.std_interp = forecast::na.interp(NDVI.std),
+         inf_lim = (NDVI.bfast - sd(NDVI.std_interp,na.rm = T)),
+         sup_lim = (NDVI.bfast + sd(NDVI.std_interp,na.rm = T)),
+         inf_lim_p = if_else(is.na(NDVI.std),NA_real_,(NDVI.bfast - sd(NDVI.std,na.rm = T))),
+         sup_lim_p =  if_else(is.na(NDVI.std),NA_real_,(NDVI.bfast + sd(NDVI.std,na.rm = T)))) %>%
+  ggplot(., aes(x=Time))+
+  geom_line(aes(y=NDVI.bfast),col='black', size =0.3)+
+  geom_line(aes(y=sup_lim),col='blue3', size=0.3)+
+  geom_line(aes(y=inf_lim),col='blue3', size=0.3)+
+  geom_point(aes(y= inf_lim_p),col='red3', size =0.3)+
+    geom_point(aes(y= sup_lim_p),col='red3', size =0.3)+
+  theme_light()
+  
+  plotly::ggplotly(g)
+}
+
+
+plot_ts(df_merged[[1]])
+```
+
+### Série temporal MODIS (2000-Momento)
+
+```{r}
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart C
+
+```{r}
+
+```
+
+### Chart D
+
+```{r}
+
+```
+
+Cluster 0
+=======================================================================
+
+Cluster 1
+=======================================================================
+Cluster 2
+=======================================================================
+Cluster 3
+=======================================================================
+Cluster 4
+=======================================================================
+Cluster 5
+=======================================================================
